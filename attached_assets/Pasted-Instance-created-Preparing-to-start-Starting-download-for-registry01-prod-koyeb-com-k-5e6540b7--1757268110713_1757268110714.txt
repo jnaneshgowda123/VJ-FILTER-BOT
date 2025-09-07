@@ -1,0 +1,29 @@
+Instance created. Preparing to start...
+Starting download for registry01.prod.koyeb.com/k-5e6540b7-bfd5-4246-9382-abfa6360bab5/32086d5e-7695-43bc-9f5b-624194c26015:df50d719-6adc-4763-8310-d0f4e7c8e7f3
+Download progress: 100% |[32m++++++++[0m| (99.1 MiB/s)
+Download complete for registry01.prod.koyeb.com/k-5e6540b7-bfd5-4246-9382-abfa6360bab5/32086d5e-7695-43bc-9f5b-624194c26015:df50d719-6adc-4763-8310-d0f4e7c8e7f3
+Traceback (most recent call last):
+  File "/VJ-FILTER-BOT/bot.py", line 17, in <module>
+    from database.users_chats_db import db
+  File "/VJ-FILTER-BOT/database/users_chats_db.py", line 7, in <module>
+    import motor.motor_asyncio
+  File "/usr/local/lib/python3.12/site-packages/motor/motor_asyncio.py", line 16, in <module>
+    from . import core, motor_gridfs
+  File "/usr/local/lib/python3.12/site-packages/motor/core.py", line 30, in <module>
+    from pymongo.cursor import _QUERY_OPTIONS, Cursor, RawBatchCursor
+ImportError: cannot import name '_QUERY_OPTIONS' from 'pymongo.cursor' (/usr/local/lib/python3.12/site-packages/pymongo/cursor.py)
+Instance is starting... Waiting for health checks to pass.
+Application exited with code 1. This usually indicates an application failure. Check that the command used to launch your application is correct.
+Traceback (most recent call last):
+  File "/VJ-FILTER-BOT/bot.py", line 17, in <module>
+    from database.users_chats_db import db
+  File "/VJ-FILTER-BOT/database/users_chats_db.py", line 7, in <module>
+    import motor.motor_asyncio
+  File "/usr/local/lib/python3.12/site-packages/motor/motor_asyncio.py", line 16, in <module>
+    from . import core, motor_gridfs
+  File "/usr/local/lib/python3.12/site-packages/motor/core.py", line 30, in <module>
+    from pymongo.cursor import _QUERY_OPTIONS, Cursor, RawBatchCursor
+ImportError: cannot import name '_QUERY_OPTIONS' from 'pymongo.cursor' (/usr/local/lib/python3.12/site-packages/pymongo/cursor.py)
+Application exited with code 1. This usually indicates an application failure. Check that the command used to launch your application is correct.
+Instance stopped.
+Instance created. Preparing to start...
