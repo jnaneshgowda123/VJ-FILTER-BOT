@@ -118,7 +118,3 @@ def get_reply_markup(query):
         InlineKeyboardButton('Search again', switch_inline_query_current_chat=query)
     ]]
     return InlineKeyboardMarkup(buttons)
-
-
-
-

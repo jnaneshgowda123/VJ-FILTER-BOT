@@ -69,21 +69,24 @@ async def is_subscribed(bot, query):
             if user and user["user_id"] == query.from_user.id:
                 return True
             else:
-                try:
-                    user_data = await bot.get_chat_member(AUTH_CHANNEL, query.from_user.id)
-                except UserNotParticipant:
-                    pass
-                except Exception as e:
-                    logger.exception(e)
-                else:
-                    if user_data.status != enums.ChatMemberStatus.BANNED:
-                        return True
+                for channel in AUTH_CHANNEL:
+                    try:
+                        user_data = await bot.get_chat_member(channel, query.from_user.id)
+                    except UserNotParticipant:
+                        return False
+                    except Exception as e:
+                        logger.exception(e)
+                        return False
+                    else:
+                        if user_data.status == enums.ChatMemberStatus.BANNED:
+                            return False
+                return True
         except Exception as e:
             logger.exception(e)
             return False
     else:
         try:
-            user = await bot.get_chat_member(AUTH_CHANNEL, query.from_user.id)
+            user = await bot.get_chat_member(AUTH_CHANNEL[0], query.from_user.id)
         except UserNotParticipant:
             pass
         except Exception as e:
@@ -116,7 +119,7 @@ async def get_poster(query, bulk=False, id=False, file=None):
                 filtered = movieid
         else:
             filtered = movieid
-        movieid=list(filter(lambda k: k.get('kind') in ['movie', 'tv series'], filtered))
+        movieid = list(filter(lambda k: k.get('kind') in ['movie', 'tv series'], filtered))
         if not movieid:
             movieid = filtered
         if bulk:
@@ -148,7 +151,7 @@ async def get_poster(query, bulk=False, id=False, file=None):
         'votes': movie.get('votes'),
         "aka": list_to_str(movie.get("akas")),
         "seasons": movie.get("number of seasons"),
-        "box_office": movie.get('box office'),
+        "box_office": movie.get('box_office'),
         'localized_title': movie.get('localized title'),
         'kind': movie.get("kind"),
         "imdb_id": f"tt{movie.get('imdbID')}",
