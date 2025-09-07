@@ -1,0 +1,30 @@
+Instance created. Preparing to start...
+Starting download for registry01.prod.koyeb.com/k-5e6540b7-bfd5-4246-9382-abfa6360bab5/32086d5e-7695-43bc-9f5b-624194c26015:6641b4e7-8422-4ee8-99f9-e06cd8cf392e
+Download progress: 100% |[32m++++++++[0m| (98.7 MiB/s)
+Instance is starting... Waiting for health checks to pass.
+Traceback (most recent call last):
+  File "/VJ-FILTER-BOT/bot.py", line 17, in <module>
+    from database.users_chats_db import db
+  File "/VJ-FILTER-BOT/database/users_chats_db.py", line 7, in <module>
+    import motor.motor_asyncio
+  File "/usr/local/lib/python3.12/site-packages/motor/motor_asyncio.py", line 18, in <module>
+    from .frameworks import asyncio as asyncio_framework
+  File "/usr/local/lib/python3.12/site-packages/motor/frameworks/asyncio/__init__.py", line 28, in <module>
+    from asyncio import coroutine  # For framework interface.
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'coroutine' from 'asyncio' (/usr/local/lib/python3.12/asyncio/__init__.py). Did you mean: 'coroutines'?
+Traceback (most recent call last):
+  File "/VJ-FILTER-BOT/bot.py", line 17, in <module>
+    from database.users_chats_db import db
+  File "/VJ-FILTER-BOT/database/users_chats_db.py", line 7, in <module>
+    import motor.motor_asyncio
+  File "/usr/local/lib/python3.12/site-packages/motor/motor_asyncio.py", line 18, in <module>
+    from .frameworks import asyncio as asyncio_framework
+  File "/usr/local/lib/python3.12/site-packages/motor/frameworks/asyncio/__init__.py", line 28, in <module>
+    from asyncio import coroutine  # For framework interface.
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'coroutine' from 'asyncio' (/usr/local/lib/python3.12/asyncio/__init__.py). Did you mean: 'coroutines'?
+Download complete for registry01.prod.koyeb.com/k-5e6540b7-bfd5-4246-9382-abfa6360bab5/32086d5e-7695-43bc-9f5b-624194c26015:6641b4e7-8422-4ee8-99f9-e06cd8cf392e
+Application exited with code 1. This usually indicates an application failure. Check that the command used to launch your application is correct.
+Application exited with code 1. This usually indicates an application failure. Check that the command used to launch your application is correct.
+Instance stopped.
