@@ -21,8 +21,8 @@ async def save_group(bot, message):
     if temp.ME in r_j_check:
         if not await db.get_chat(message.chat.id):
             total=await bot.get_chat_members_count(message.chat.id)
-            r_j = message.from_user.mention if message.from_user else "Anonymous" 
-            await bot.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(message.chat.title, message.chat.id, total, r_j))       
+            r_j = message.from_user.mention if message.from_user else "Anonymous"
+            await bot.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(message.chat.title, message.chat.id, total, r_j))
             await db.add_chat(message.chat.id, message.chat.title)
         if message.chat.id in temp.BANNED_CHATS:
             # Inspired from a boat of a banana tree
@@ -70,7 +70,7 @@ async def save_group(bot, message):
                     text=(script.MELCOW_ENG.format(u.mention, message.chat.title)),
                     reply_markup=InlineKeyboardMarkup(button),
                     parse_mode=enums.ParseMode.HTML
-                )  
+                )
         if settings["auto_delete"]:
             await asyncio.sleep(600)
             await (temp.MELCOW['welcome']).delete()
@@ -132,7 +132,7 @@ async def disable_chat(bot, message):
         ]]
         reply_markup=InlineKeyboardMarkup(buttons)
         await bot.send_message(
-            chat_id=chat_, 
+            chat_id=chat_,
             text=f'<b>Hello Friends, \nMy admin has told me to leave from group so i go! If you wanna add me again contact my support group.</b> \nReason : <code>{reason}</code>',
             reply_markup=reply_markup)
         await bot.leave_chat(chat_)
@@ -167,16 +167,16 @@ async def get_ststs(bot, message):
         stats = vjdb.command('dbStats')
         used_dbSize = (stats['dataSize']/(1024*1024))+(stats['indexSize']/(1024*1024))
         free_dbSize = 512-used_dbSize
-        
+
         if MULTIPLE_DATABASE == False:
             try:
-            await rju.edit(script.SEC_STATUS_TXT.format(total_users, totl_chats, filesp, round(used_dbSize, 2), round(free_dbSize, 2)))
-        except Exception as e:
-            if "MESSAGE_NOT_MODIFIED" not in str(e):
-                print(f"Stats edit error: {e}")
-            return 
-            
-        totalsec = sec_col.count_documents({})   
+                await rju.edit(script.SEC_STATUS_TXT.format(total_users, totl_chats, filesp, round(used_dbSize, 2), round(free_dbSize, 2)))
+            except Exception as e:
+                if "MESSAGE_NOT_MODIFIED" not in str(e):
+                    print(f"Stats edit error: {e}")
+                return
+
+        totalsec = sec_col.count_documents({})
         stats2 = sec_db.command('dbStats')
         used_dbSize2 = (stats2['dataSize']/(1024*1024))+(stats2['indexSize']/(1024*1024))
         free_dbSize2 = 512-used_dbSize2
@@ -228,7 +228,7 @@ async def ban_a_user(bot, message):
     except PeerIdInvalid:
         return await message.reply("This is an invalid user, make sure ia have met him before.")
     except IndexError:
-        return await message.reply("This might be a channel, make sure its a user.")
+        return await message.reply("This is a channel, make sure its a user.")
     except Exception as e:
         return await message.reply(f'Error - {e}')
     else:
@@ -238,7 +238,7 @@ async def ban_a_user(bot, message):
         await db.ban_user(k.id, reason)
         temp.BANNED_USERS.append(k.id)
         await message.reply(f"Successfully banned {k.mention}")
-    
+
 @Client.on_message(filters.command('unban') & filters.user(ADMINS))
 async def unban_a_user(bot, message):
     if len(message.command) == 1:
@@ -259,7 +259,7 @@ async def unban_a_user(bot, message):
     except PeerIdInvalid:
         return await message.reply("This is an invalid user, make sure ia have met him before.")
     except IndexError:
-        return await message.reply("Thismight be a channel, make sure its a user.")
+        return await message.reply("This might be a channel, make sure its a user.")
     except Exception as e:
         return await message.reply(f'Error - {e}')
     else:
@@ -269,7 +269,7 @@ async def unban_a_user(bot, message):
         await db.remove_ban(k.id)
         temp.BANNED_USERS.remove(k.id)
         await message.reply(f"Successfully unbanned {k.mention}")
-    
+
 @Client.on_message(filters.command('users') & filters.user(ADMINS))
 async def list_users(bot, message):
     # https://t.me/GetTGLink/4184
