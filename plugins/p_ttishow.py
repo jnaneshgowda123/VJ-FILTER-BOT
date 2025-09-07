@@ -169,7 +169,11 @@ async def get_ststs(bot, message):
         free_dbSize = 512-used_dbSize
         
         if MULTIPLE_DATABASE == False:
+            try:
             await rju.edit(script.SEC_STATUS_TXT.format(total_users, totl_chats, filesp, round(used_dbSize, 2), round(free_dbSize, 2)))
+        except Exception as e:
+            if "MESSAGE_NOT_MODIFIED" not in str(e):
+                print(f"Stats edit error: {e}")
             return 
             
         totalsec = sec_col.count_documents({})   
@@ -179,7 +183,11 @@ async def get_ststs(bot, message):
         stats3 = mydb.command('dbStats')
         used_dbSize3 = (stats3['dataSize']/(1024*1024))+(stats3['indexSize']/(1024*1024))
         free_dbSize3 = 512-used_dbSize3
-        await rju.edit(script.STATUS_TXT.format((int(filesp)+int(totalsec)), total_users, totl_chats, filesp, round(used_dbSize, 2), round(free_dbSize, 2), totalsec, round(used_dbSize2, 2), round(free_dbSize2, 2), round(used_dbSize3, 2), round(free_dbSize3, 2)))
+        try:
+            await rju.edit(script.STATUS_TXT.format((int(filesp)+int(totalsec)), total_users, totl_chats, filesp, round(used_dbSize, 2), round(free_dbSize, 2), totalsec, round(used_dbSize2, 2), round(free_dbSize2, 2), round(used_dbSize3, 2), round(free_dbSize3, 2)))
+        except Exception as e:
+            if "MESSAGE_NOT_MODIFIED" not in str(e):
+                print(f"Stats edit error: {e}")
     except Exception as e:
         await rju.edit(f"Error - {e}")
 
