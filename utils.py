@@ -85,16 +85,39 @@ async def is_subscribed(bot, query):
             logger.exception(e)
             return False
     else:
+        if not AUTH_CHANNEL:
+            return True
+        for channel in AUTH_CHANNEL:
+            try:
+                user = await bot.get_chat_member(channel, query.from_user.id)
+                if user.status == enums.ChatMemberStatus.BANNED:
+                    return False
+            except UserNotParticipant:
+                return False
+            except Exception as e:
+                logger.exception(e)
+                return False
+        return True
+
+async def get_auth_channel_buttons(bot):
+    """Generate invite buttons for all auth channels"""
+    btn = []
+    for channel_id in AUTH_CHANNEL:
         try:
-            user = await bot.get_chat_member(AUTH_CHANNEL[0], query.from_user.id)
-        except UserNotParticipant:
-            pass
+            chat = await bot.get_chat(int(channel_id))
+            try:
+                invite_link = await bot.create_chat_invite_link(int(channel_id))
+                btn.append([InlineKeyboardButton(f'Join {chat.title}', url=invite_link.invite_link)])
+            except:
+                # If can't create invite link, try to get username or manual link
+                if chat.username:
+                    btn.append([InlineKeyboardButton(f'Join {chat.title}', url=f"https://t.me/{chat.username}")])
+                else:
+                    btn.append([InlineKeyboardButton(f'Join {chat.title}', url=f"https://t.me/c/{str(channel_id)[4:]}")])
         except Exception as e:
-            logger.exception(e)
-        else:
-            if user.status != enums.ChatMemberStatus.BANNED:
-                return True
-        return False
+            logger.exception(f"Error getting chat {channel_id}: {e}")
+            continue
+    return btn
 
 async def get_poster(query, bulk=False, id=False, file=None):
     if not id:

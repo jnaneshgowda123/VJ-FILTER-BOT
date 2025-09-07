@@ -89,22 +89,12 @@ async def start(client, message):
     
     if AUTH_CHANNEL and not await is_subscribed(client, message):
         try:
-            from utils import get_auth_channel_buttons
             btn = await get_auth_channel_buttons(client)
             if not btn:
                 return await message.reply_text("Unable to create invite links for auth channels.")
         except Exception as e:
             print(e)
-            btn = []
-            for channel_id in AUTH_CHANNEL:
-                try:
-                    chat = await client.get_chat(int(channel_id))
-                    btn.append([InlineKeyboardButton(f'Join {chat.title}', url=f"https://t.me/{chat.username}" if chat.username else f"https://t.me/c/{str(channel_id)[4:]}")])
-                except:
-                    continue
-
-        if not btn:
-            return await message.reply_text("Unable to create force subscribe buttons.")
+            return await message.reply_text("Error creating force subscribe buttons.")
 
         try:
             if TRY_AGAIN_BTN == True:
