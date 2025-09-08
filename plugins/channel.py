@@ -34,20 +34,20 @@ except ImportError:
 # Constants for better organization
 IGNORE_WORDS = {
     "rarbg", "dub", "sub", "sample", "mkv", "aac", "combined",
-    "action", "adventure", "animation", "biography", "comedy", "crime", 
-    "documentary", "drama", "family", "fantasy", "film-noir", "history", 
-    "horror", "music", "musical", "mystery", "romance", "sci-fi", "sport", 
-    "thriller", "war", "western", "hdcam", "hdtc", "camrip", "ts", "tc", 
-    "telesync", "dvdscr", "dvdrip", "predvd", "webrip", "web-dl", "tvrip", 
-    "hdtv", "web dl", "webdl", "bluray", "brrip", "bdrip", "360p", "480p", 
-    "720p", "1080p", "2160p", "4k", "1440p", "540p", "240p", "140p", "hevc", 
-    "hdrip", "hin", "hindi", "tam", "tamil", "kan", "kannada", "tel", "telugu", 
+    "action", "adventure", "animation", "biography", "comedy", "crime",
+    "documentary", "drama", "family", "fantasy", "film-noir", "history",
+    "horror", "music", "musical", "mystery", "romance", "sci-fi", "sport",
+    "thriller", "war", "western", "hdcam", "hdtc", "camrip", "ts", "tc",
+    "telesync", "dvdscr", "dvdrip", "predvd", "webrip", "web-dl", "tvrip",
+    "hdtv", "web dl", "webdl", "bluray", "brrip", "bdrip", "360p", "480p",
+    "720p", "1080p", "2160p", "4k", "1440p", "540p", "240p", "140p", "hevc",
+    "hdrip", "hin", "hindi", "tam", "tamil", "kan", "kannada", "tel", "telugu",
     "mal", "malayalam", "eng", "english", "pun", "punjabi", "ben", "bengali"
 }
 
 CAPTION_LANGUAGES = {
     "hin": "Hindi", "hindi": "Hindi",
-    "tam": "Tamil", "tamil": "Tamil", 
+    "tam": "Tamil", "tamil": "Tamil",
     "kan": "Kannada", "kannada": "Kannada",
     "tel": "Telugu", "telugu": "Telugu",
     "mal": "Malayalam", "malayalam": "Malayalam",
@@ -62,7 +62,7 @@ NORMALIZE_PATTERN = re.compile(r"[._]+|[()\[\]{}:;'–!,.?_]")
 QUALITY_PATTERN = re.compile(
     r"\b(?:HDCam|HDTC|CamRip|TS|TC|TeleSync|DVDScr|DVDRip|PreDVD|"
     r"WEBRip|WEB-DL|TVRip|HDTV|WEB DL|WebDl|BluRay|BRRip|BDRip|"
-    r"360p|480p|720p|1080p|2160p|4K|1440p|540p|240p|140p|HEVC|HDRip)\b", 
+    r"360p|480p|720p|1080p|2160p|4K|1440p|540p|240p|140p|HEVC|HDRip)\b",
     re.IGNORECASE
 )
 
@@ -84,10 +84,10 @@ def extract_movie_name(filename: str) -> str:
         if name.lower().endswith(ext):
             name = name[:-len(ext)]
             break
-    
+
     # Clean mentions and links
     name = clean_mentions_links(name)
-    
+
     # Remove quality indicators and other patterns
     remove_patterns = [
         r'\b(720p|1080p|480p|360p|2160p|4k|hd|sd|cam|dvdrip|brrip|webrip|hdtv|web-dl|bluray)\b',
@@ -98,16 +98,16 @@ def extract_movie_name(filename: str) -> str:
         r'www\.\w+\.\w+',
         r'@\w+',
     ]
-    
+
     for pattern in remove_patterns:
         name = re.sub(pattern, '', name, flags=re.IGNORECASE)
-    
+
     # Normalize and clean
     name = normalize(name)
-    
+
     # Remove ignored words
     words = [word for word in name.split() if word.lower() not in IGNORE_WORDS]
-    
+
     return " ".join(words).strip()
 
 async def process_and_send_movie_update(bot, filename, caption, file_size):
@@ -207,7 +207,7 @@ def schedule_update(bot, movie_name, delay=10):
     if handle := pending_updates.get(movie_name):
         if not handle.cancelled():
             handle.cancel()
-    
+
     loop = asyncio.get_event_loop()
     pending_updates[movie_name] = loop.call_later(
         delay,
@@ -222,7 +222,7 @@ async def send_movie_update(bot, movie_name):
             return
 
         text = generate_movie_message(movie_doc, movie_name)
-        
+
         # Create button
         buttons = InlineKeyboardMarkup([[
             InlineKeyboardButton(
@@ -279,13 +279,13 @@ async def send_movie_update(bot, movie_name):
                 "reply_markup": buttons,
                 "parse_mode": enums.ParseMode.HTML
             }
-            
+
             if hasattr(locals(), 'LINK_PREVIEW') and LINK_PREVIEW:
                 if hasattr(locals(), 'ABOVE_PREVIEW') and ABOVE_PREVIEW:
                     send_params["invert_media"] = True
             else:
                 send_params["disable_web_page_preview"] = True
-                
+
             msg = await bot.send_message(**send_params)
             is_photo = False
 
@@ -309,7 +309,7 @@ async def update_movie_message(bot, movie_name):
             return
 
         text = generate_movie_message(movie_doc, movie_name)
-        
+
         buttons = InlineKeyboardMarkup([[
             InlineKeyboardButton(
                 '🔍 Get Files',
@@ -341,15 +341,15 @@ async def update_movie_message(bot, movie_name):
                     "reply_markup": buttons,
                     "parse_mode": enums.ParseMode.HTML
                 }
-                
+
                 if hasattr(locals(), 'LINK_PREVIEW') and LINK_PREVIEW:
                     if hasattr(locals(), 'ABOVE_PREVIEW') and ABOVE_PREVIEW:
                         edit_params["invert_media"] = True
                 else:
                     edit_params["disable_web_page_preview"] = True
-                    
+
                 await bot.edit_message_text(**edit_params)
-                
+
         except (MessageIdInvalid, MessageNotModified):
             # Message was deleted or no changes needed
             pass
@@ -368,36 +368,36 @@ async def update_movie_message(bot, movie_name):
 def generate_movie_message(movie_doc, movie_name):
     """Generate movie update message text"""
     files = movie_doc.get("files", [])
-    
+
     # Aggregate information from all files
     all_qualities = set()
     all_languages = set()
     total_files = len(files)
-    
+
     for file_data in files:
         if file_data["quality"] != "N/A":
             all_qualities.update(q.strip() for q in file_data["quality"].split(","))
         if file_data["language"] != "N/A":
             all_languages.update(l.strip() for l in file_data["language"].split(","))
-    
+
     quality_str = ", ".join(sorted(all_qualities)) if all_qualities else "N/A"
     language_str = ", ".join(sorted(all_languages)) if all_languages else "N/A"
-    
+
     # Build message
     message_parts = [
         f"🎬 <b>{movie_name}</b>",
         ""
     ]
-    
+
     if movie_doc.get("genres") and movie_doc["genres"] != "N/A":
         message_parts.append(f"🎭 <b>Genre:</b> {movie_doc['genres']}")
-    
+
     if movie_doc.get("year") and movie_doc["year"] != "N/A":
         message_parts.append(f"📅 <b>Year:</b> {movie_doc['year']}")
-    
+
     if movie_doc.get("rating") and movie_doc["rating"] != "N/A":
         message_parts.append(f"⭐ <b>Rating:</b> {movie_doc['rating']}/10")
-    
+
     message_parts.extend([
         f"🎥 <b>Quality:</b> {quality_str}",
         f"🗣️ <b>Language:</b> {language_str}",
@@ -405,7 +405,7 @@ def generate_movie_message(movie_doc, movie_name):
         "",
         f"🔍 <b>Search:</b> <code>{movie_name}</code>"
     ])
-    
+
     return "\n".join(message_parts)
 
 @Client.on_message(filters.chat(CHANNELS) & (filters.document | filters.video | filters.audio))
@@ -415,38 +415,38 @@ async def media_handler(bot, message):
         # Get media object
         media = None
         file_type = None
-        
+
         if message.document:
             media = message.document
             file_type = "document"
         elif message.video:
             media = message.video
-            file_type = "video"  
+            file_type = "video"
         elif message.audio:
             media = message.audio
             file_type = "audio"
-            
+
         if not media:
             return
 
         # Set media properties
         media.file_type = file_type
         media.caption = message.caption or ""
-        
+
         # Get file details
         file_name, file_id, file_ref = unpack_new_file_id(media.file_id)
 
         # Save file to database
         result = await save_file(media)
-        
+
         # Process movie update if it's a video file
         if media.file_name and MOVIE_UPDATE_CHANNEL:
             video_extensions = ['.mkv', '.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm', '.m4v']
             if any(media.file_name.lower().endswith(ext) for ext in video_extensions):
                 await process_and_send_movie_update(
-                    bot, 
-                    media.file_name, 
-                    media.caption or "", 
+                    bot,
+                    media.file_name,
+                    media.caption or "",
                     media.file_size
                 )
 
@@ -458,18 +458,20 @@ async def media_handler(bot, message):
                 quote=True
             )
         else:
-            file_type_name = "Video" if file_type == "video" else "File" 
+            file_type_name = "Video" if file_type == "video" else "File"
             await message.reply_text(
                 f"**{file_type_name} Already Exists ⚠️**",
                 quote=True
             )
-            
+
     except Exception as e:
         logger.error(f"Error in media handler: {e}")
-        await message.reply_text(
-            "**Something went wrong. Please check logs.**",
-            quote=True
-        )
+        # Still save the file even if movie update fails
+        try:
+            await save_file(media)
+        except Exception as save_error:
+            logger.error(f"Failed to save file: {save_error}")
+        pass
 
 @Client.on_message(filters.private & (filters.document | filters.video | filters.audio))
 async def private_media_handler(bot, message):
@@ -478,7 +480,7 @@ async def private_media_handler(bot, message):
         # Get media object
         media = None
         file_type = None
-        
+
         if message.document:
             media = message.document
             file_type = "document"
@@ -488,14 +490,14 @@ async def private_media_handler(bot, message):
         elif message.audio:
             media = message.audio
             file_type = "audio"
-            
+
         if not media:
             return
 
         # Set media properties
         media.file_type = file_type
         media.caption = message.caption or ""
-        
+
         # Get file details
         file_name, file_id, file_ref = unpack_new_file_id(media.file_id)
 
@@ -515,7 +517,7 @@ async def private_media_handler(bot, message):
                 f"**{file_type_name} Already Exists ⚠️**",
                 quote=True
             )
-            
+
     except Exception as e:
         logger.error(f"Error in private media handler: {e}")
         await message.reply_text(

@@ -18,8 +18,8 @@ from database.users_chats_db import db
 from info import *
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
-from Script import script 
-from datetime import date, datetime 
+from Script import script
+from datetime import date, datetime
 from aiohttp import web
 from plugins import web_server
 from plugins.clone import restart_bots
@@ -75,11 +75,13 @@ async def start():
             await k.delete()
         except:
             print("Make Your Bot Admin In File Channels With Full Rights")
-    try:
-        k = await TechVJBot.send_message(chat_id=AUTH_CHANNEL, text="**Bot Restarted**")
-        await k.delete()
-    except:
-        print("Make Your Bot Admin In Force Subscribe Channel With Full Rights")
+    if AUTH_CHANNEL:
+        for auth_ch in AUTH_CHANNEL:
+            try:
+                k = await TechVJBot.send_message(chat_id=auth_ch, text="**Bot Restarted**")
+                await k.delete()
+            except Exception as e:
+                print(f"Make Your Bot Admin In Force Subscribe Channel {auth_ch} With Full Rights - Error: {e}")
     if CLONE_MODE == True:
         print("Restarting All Clone Bots.......")
         await restart_bots()
@@ -96,4 +98,3 @@ if __name__ == '__main__':
         loop.run_until_complete(start())
     except KeyboardInterrupt:
         logging.info('Service Stopped Bye 👋')
-

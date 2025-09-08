@@ -527,7 +527,16 @@ async def start(client, message):
     user = message.from_user.id
     files_ = await get_file_details(file_id)           
     if not files_:
-        pre, file_id = ((base64.urlsafe_b64decode(data + "=" * (-len(data) % 4))).decode("ascii")).split("_", 1)
+        try:
+            decoded_data = base64.urlsafe_b64decode(data + "=" * (-len(data) % 4)).decode("ascii")
+            if "_" in decoded_data:
+                pre, file_id = decoded_data.split("_", 1)
+            else:
+                pre, file_id = decoded_data, ""
+        except Exception as e:
+            logger.error(f"Base64 decode error: {e}")
+            await message.reply_text("Invalid file link format!")
+            return
         try:
             if not await db.has_premium_access(message.from_user.id):
                 if not await check_verification(client, message.from_user.id) and VERIFY == True:
