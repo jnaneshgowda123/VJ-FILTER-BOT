@@ -1,0 +1,74 @@
+Instance created. Preparing to start...
+Starting download for registry01.prod.koyeb.com/k-5e6540b7-bfd5-4246-9382-abfa6360bab5/32086d5e-7695-43bc-9f5b-624194c26015:64fd5460-f941-4b7e-9096-02f732333b58
+Download progress: 100% |[32m++++++++[0m| (99.3 MiB/s)
+Download complete for registry01.prod.koyeb.com/k-5e6540b7-bfd5-4246-9382-abfa6360bab5/32086d5e-7695-43bc-9f5b-624194c26015:64fd5460-f941-4b7e-9096-02f732333b58
+Instance is starting... Waiting for health checks to pass.
+
+
+Initalizing Your Bot
+No additional clients found, using default client
+Tech VJ Imported => filters
+Tech VJ Imported => files_delete
+Tech VJ Imported => gfilters
+Tech VJ Imported => p_ttishow
+Tech VJ Imported => broadcast
+Tech VJ Imported => route
+Tech VJ Imported => __init__
+Tech VJ Imported => connection
+Tech VJ Imported => clone
+Tech VJ Imported => banned
+Tech VJ Imported => pm_filter
+Tech VJ Imported => index
+Tech VJ Imported => misc
+Tech VJ Imported => inline
+Tech VJ Imported => channel
+Tech VJ Imported => commands
+Tech VJ Imported => genlink
+08:52:11 AM - 63 - root - bot - INFO - 
+████████╗███████╗███████╗██╗  ██╗    ╔██        ██╗       ██╗
+╚═ ██╔══╝██╔════╝██╔════╝██║  ██║     ║██      ██║        ██║
+   ██║    █████╗  ██║      ███████║      ║██    ██║         ██║
+   ██║    ██╔══╝  ██║      ██╔══██║       ║██  ██║  ╔██     ██║
+   ██║    ███████╗███████╗██║  ██║        ║████║   ║████████║
+   ╚═╝    ╚══════╝╚══════╝╚═╝  ╚═╝        ╚════╝   ╚════════╝
+Instance is healthy. All health checks are passing.
+Make Your Bot Admin In Force Subscribe Channel With Full Rights
+08:52:18 AM - 376 - pyrogram.dispatcher - dispatcher - ERROR - Telegram says: [400 MESSAGE_NOT_MODIFIED] (caused by "messages.EditMessage") Pyrogram 2.3.45 thinks: The message was not modified because you tried to edit it using the same content
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/dispatcher.py", line 363, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/handlers/callback_query_handler.py", line 207, in resolve_future_or_callback
+    await self.original_callback(client, query, *args)
+  File "/VJ-FILTER-BOT/plugins/pm_filter.py", line 1857, in cb_handler
+    await client.edit_message_media(
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/methods/messages/edit_message_media.py", line 299, in edit_message_media
+    r = await self.invoke(rpc)
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/methods/advanced/invoke.py", line 80, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/session/session.py", line 420, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/session/session.py", line 377, in send
+    RPCError.raise_it(result, type(data))
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/errors/rpc_error.py", line 93, in raise_it
+    raise getattr(
+pyrogram.errors.exceptions.bad_request_400.MessageNotModified: Telegram says: [400 MESSAGE_NOT_MODIFIED] (caused by "messages.EditMessage") Pyrogram 2.3.45 thinks: The message was not modified because you tried to edit it using the same content
+08:53:19 AM - 468 - plugins.channel - channel - ERROR - Error in media handler: too many values to unpack (expected 3)
+08:54:49 AM - 376 - pyrogram.dispatcher - dispatcher - ERROR - Invalid base64-encoded string: number of data characters (25) cannot be 1 more than a multiple of 4
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/dispatcher.py", line 363, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/handlers/message_handler.py", line 154, in resolve_future_or_callback
+    await self.original_callback(client, message, *args)
+  File "/VJ-FILTER-BOT/plugins/commands.py", line 530, in start
+    pre, file_id = ((base64.urlsafe_b64decode(data + "=" * (-len(data) % 4))).decode("ascii")).split("_", 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/base64.py", line 134, in urlsafe_b64decode
+    return b64decode(s)
+           ^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/base64.py", line 88, in b64decode
+    return binascii.a2b_base64(s, strict_mode=validate)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+binascii.Error: Invalid base64-encoded string: number of data characters (25) cannot be 1 more than a multiple of 4
