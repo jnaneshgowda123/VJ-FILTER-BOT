@@ -605,6 +605,13 @@ async def verify_user(bot, userid, token):
     tz = pytz.timezone('Asia/Kolkata')
     today = date.today()
     VERIFIED[user.id] = str(today)
+    
+    # Send verification notification to admins
+    verification_text = f"🎉 <b>New User Verified!</b>\n\n👤 <b>User:</b> {user.mention}\n🆔 <b>ID:</b> <code>{user.id}</code>\n📅 <b>Date:</b> {today}\n⏰ <b>Time:</b> {datetime.now(tz).strftime('%I:%M %p')}"
+    try:
+        await bot.send_message(LOG_CHANNEL, verification_text)
+    except Exception as e:
+        logger.error(f"Failed to send verification notification: {e}")
 
 async def check_verification(bot, userid):
     user = await bot.get_users(userid)
