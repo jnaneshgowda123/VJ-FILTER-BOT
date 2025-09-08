@@ -58,6 +58,15 @@ FILE_STORE_CHANNEL = [int(ch) for ch in (environ.get('FILE_STORE_CHANNEL', '')).
 movie_update_channel = environ.get('MOVIE_UPDATE_CHANNEL', '')
 MOVIE_UPDATE_CHANNEL = int(movie_update_channel) if movie_update_channel and id_pattern.search(movie_update_channel) else None
 
+# Movie Update Features Configuration
+LINK_PREVIEW = bool(environ.get('LINK_PREVIEW', True))  # Enable link preview in movie updates
+ABOVE_PREVIEW = bool(environ.get('ABOVE_PREVIEW', False))  # Show preview above text
+LANDSCAPE_POSTER = bool(environ.get('LANDSCAPE_POSTER', False))  # Use landscape poster if available
+TMDB_POSTER = bool(environ.get('TMDB_POSTER', True))  # Use TMDB for poster if available
+
+# Bad words to filter out from movie names
+BAD_WORDS = set(environ.get('BAD_WORDS', 'rarbg sample').split())
+
 # This Channel Is For Delete Index File, Forward Your File In This Channel Which You Want To Delete Then Bot Automatically Delete That File From Database.
 DELETE_CHANNELS = [int(dch) if id_pattern.search(dch) else dch for dch in environ.get('DELETE_CHANNELS', '0').split()]  # For Multiple Id Use One Space Between Each.
 

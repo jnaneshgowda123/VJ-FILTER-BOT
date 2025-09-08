@@ -145,7 +145,7 @@ class Database:
     async def remove_ban(self, id):
         ban_status = dict(
             is_banned=False,
-            ban_reason=''
+            ban_reason=""
         )
         await self.col.update_one({'id': id}, {'$set': {'ban_status': ban_status}})
     
@@ -307,5 +307,15 @@ class Database:
         user = await self.col.find_one({'id': int(id)})
         return user.get('save', False) 
     
+    async def update_as_deleted_user(self, id):
+        await self.col.update_one({'id': int(id)}, {'$set': {'banned_date': datetime.date.today(), 'banned': True, 'id': int(id)}})
+
+    async def movie_update_status(self, bot_id):
+        """Check if movie updates are enabled for this bot"""
+        # You can implement logic to enable/disable movie updates per bot
+        # For now, return True if MOVIE_UPDATE_CHANNEL is configured
+        from info import MOVIE_UPDATE_CHANNEL
+        return bool(MOVIE_UPDATE_CHANNEL)
+
 
 db = Database(USER_DB_URI, DATABASE_NAME)
