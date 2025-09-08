@@ -13,50 +13,28 @@ from database.join_reqs import JoinReqs
 from info import CLONE_MODE, OWNER_LNK, REACTIONS, CHANNELS, REQUEST_TO_JOIN_MODE, TRY_AGAIN_BTN, ADMINS, SHORTLINK_MODE, PREMIUM_AND_REFERAL_MODE, STREAM_MODE, AUTH_CHANNEL, REFERAL_PREMEIUM_TIME, REFERAL_COUNT, PAYMENT_TEXT, PAYMENT_QR, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT, CHNL_LNK, GRP_LNK, REQST_CHANNEL, SUPPORT_CHAT, MAX_B_TN, VERIFY, SHORTLINK_API, SHORTLINK_URL, TUTORIAL, VERIFY_TUTORIAL, IS_TUTORIAL, URL
 from utils import get_settings, pub_is_subscribed, get_size, is_subscribed, save_group_settings, temp, verify_user, check_token, check_verification, get_token, get_shortlink, get_tutorial, get_seconds
 
-async def get_auth_channel_buttons(client, user_id):
-    """Create buttons for force subscribe channels that user hasn't joined"""
+async def get_auth_channel_buttons(client):
+    """Create buttons for force subscribe channels"""
     btn = []
     if not AUTH_CHANNEL:
         return None
     
     for channel_id in AUTH_CHANNEL:
         try:
-            # Check if user is already a member of this channel
-            try:
-                member = await client.get_chat_member(channel_id, user_id)
-                if member.status not in [enums.ChatMemberStatus.LEFT, enums.ChatMemberStatus.BANNED]:
-                    continue  # User is already a member, skip this channel
-            except Exception:
-                pass  # If we can't check membership, include the button
-            
             chat = await client.get_chat(channel_id)
-            invite_link = None
-            
-            # Try to get existing invite link first
             try:
-                if chat.invite_link:
-                    invite_link = chat.invite_link
-                else:
-                    # Try to create a new invite link
-                    try:
-                        new_link = await client.create_chat_invite_link(channel_id)
-                        invite_link = new_link.invite_link
-                    except Exception:
-                        # If we can't create invite link, use username or fallback
-                        if chat.username:
-                            invite_link = f"https://t.me/{chat.username}"
-                        else:
-                            continue  # Skip this channel if no way to create link
+                invite_link = chat.invite_link
+                if not invite_link:
+                    invite_link = await client.create_chat_invite_link(channel_id)
+                    invite_link = invite_link.invite_link
             except Exception:
-                # Fallback to username if available
-                if chat.username:
-                    invite_link = f"https://t.me/{chat.username}"
-                else:
+                try:
+                    invite_link = await client.create_chat_invite_link(channel_id)
+                    invite_link = invite_link.invite_link
+                except Exception:
                     continue
             
-            if invite_link:
-                btn.append([InlineKeyboardButton(f"Join {chat.title}", url=invite_link)])
-                
+            btn.append([InlineKeyboardButton(f"Join {chat.title}", url=invite_link)])
         except Exception as e:
             print(f"Error creating button for channel {channel_id}: {e}")
             continue
@@ -139,9 +117,9 @@ async def start(client, message):
     
     if AUTH_CHANNEL and not await is_subscribed(client, message):
         try:
-            btn = await get_auth_channel_buttons(client, message.from_user.id)
+            btn = await get_auth_channel_buttons(client)
             if not btn:
-                return await message.reply_text("✅ You have already joined all required channels!")
+                return await message.reply_text("Unable to create invite links for auth channels.")
         except Exception as e:
             print(e)
             return await message.reply_text("Error creating force subscribe buttons.")

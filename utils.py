@@ -72,13 +72,14 @@ async def is_subscribed(bot, query):
                 for channel in AUTH_CHANNEL:
                     try:
                         user_data = await bot.get_chat_member(channel, query.from_user.id)
-                        if user_data.status in [enums.ChatMemberStatus.LEFT, enums.ChatMemberStatus.BANNED]:
-                            return False
                     except UserNotParticipant:
                         return False
                     except Exception as e:
                         logger.exception(e)
                         return False
+                    else:
+                        if user_data.status == enums.ChatMemberStatus.BANNED:
+                            return False
                 return True
         except Exception as e:
             logger.exception(e)
@@ -89,14 +90,14 @@ async def is_subscribed(bot, query):
         for channel in AUTH_CHANNEL:
             try:
                 user = await bot.get_chat_member(channel, query.from_user.id)
-                if user.status in [enums.ChatMemberStatus.LEFT, enums.ChatMemberStatus.BANNED]:
+                if user.status == enums.ChatMemberStatus.BANNED:
                     return False
             except UserNotParticipant:
                 return False
             except Exception as e:
                 logger.exception(e)
                 return False
-        return True True
+        return True
 
 async def get_auth_channel_buttons(bot):
     """Generate invite buttons for all auth channels"""
