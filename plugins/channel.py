@@ -434,7 +434,19 @@ async def media_handler(bot, message):
         media.caption = message.caption or ""
 
         # Get file details
-        file_name, file_id, file_ref = unpack_new_file_id(media.file_id)
+        try:
+            file_name, file_id, file_ref = unpack_new_file_id(media.file_id)
+        except ValueError:
+            # Handle cases where unpack_new_file_id returns different number of values
+            unpacked = unpack_new_file_id(media.file_id)
+            if len(unpacked) == 2:
+                file_name, file_id = unpacked
+                file_ref = None
+            elif len(unpacked) >= 3:
+                file_name, file_id, file_ref = unpacked[:3]
+            else:
+                logger.error(f"Unexpected return from unpack_new_file_id: {unpacked}")
+                return
 
         # Save file to database
         result = await save_file(media)
@@ -499,7 +511,19 @@ async def private_media_handler(bot, message):
         media.caption = message.caption or ""
 
         # Get file details
-        file_name, file_id, file_ref = unpack_new_file_id(media.file_id)
+        try:
+            file_name, file_id, file_ref = unpack_new_file_id(media.file_id)
+        except ValueError:
+            # Handle cases where unpack_new_file_id returns different number of values
+            unpacked = unpack_new_file_id(media.file_id)
+            if len(unpacked) == 2:
+                file_name, file_id = unpacked
+                file_ref = None
+            elif len(unpacked) >= 3:
+                file_name, file_id, file_ref = unpacked[:3]
+            else:
+                logger.error(f"Unexpected return from unpack_new_file_id: {unpacked}")
+                return
 
         # Save file to database
         result = await save_file(media)
