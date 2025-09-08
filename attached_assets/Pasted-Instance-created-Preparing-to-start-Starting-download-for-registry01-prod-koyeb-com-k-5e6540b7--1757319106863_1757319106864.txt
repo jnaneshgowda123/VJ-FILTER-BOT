@@ -1,0 +1,59 @@
+Instance created. Preparing to start...
+Starting download for registry01.prod.koyeb.com/k-5e6540b7-bfd5-4246-9382-abfa6360bab5/32086d5e-7695-43bc-9f5b-624194c26015:40b30a66-dca5-47f2-8c06-77c18b4400da
+Download progress: 100% |[32m++++++++[0m| (99.3 MiB/s)
+Instance is starting... Waiting for health checks to pass.
+
+
+Initalizing Your Bot
+No additional clients found, using default client
+Tech VJ Imported => index
+Tech VJ Imported => channel
+Tech VJ Imported => inline
+Tech VJ Imported => clone
+Tech VJ Imported => commands
+Tech VJ Imported => __init__
+Tech VJ Imported => filters
+Tech VJ Imported => misc
+Tech VJ Imported => connection
+Tech VJ Imported => p_ttishow
+Tech VJ Imported => files_delete
+Tech VJ Imported => banned
+Tech VJ Imported => genlink
+Tech VJ Imported => route
+Tech VJ Imported => pm_filter
+Tech VJ Imported => broadcast
+Tech VJ Imported => gfilters
+08:11:02 AM - 63 - root - bot - INFO - 
+████████╗███████╗███████╗██╗  ██╗    ╔██        ██╗       ██╗
+╚═ ██╔══╝██╔════╝██╔════╝██║  ██║     ║██      ██║        ██║
+   ██║    █████╗  ██║      ███████║      ║██    ██║         ██║
+   ██║    ██╔══╝  ██║      ██╔══██║       ║██  ██║  ╔██     ██║
+   ██║    ███████╗███████╗██║  ██║        ║████║   ║████████║
+   ╚═╝    ╚══════╝╚══════╝╚═╝  ╚═╝        ╚════╝   ╚════════╝
+Instance is healthy. All health checks are passing.
+Make Your Bot Admin In Force Subscribe Channel With Full Rights
+08:11:56 AM - 376 - pyrogram.dispatcher - dispatcher - ERROR - Telegram says: [400 BUTTON_URL_INVALID] (caused by "messages.SendMessage") Pyrogram 2.3.45 thinks: The button url is invalid
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/dispatcher.py", line 363, in handler_worker
+    await handler.callback(self.client, *args)
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/handlers/message_handler.py", line 154, in resolve_future_or_callback
+    await self.original_callback(client, message, *args)
+  File "/VJ-FILTER-BOT/plugins/commands.py", line 600, in start
+    await message.reply_text(
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/types/messages_and_media/message.py", line 1482, in reply_text
+    return await self._client.send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/methods/messages/send_message.py", line 200, in send_message
+    r = await self.invoke(rpc)
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/methods/advanced/invoke.py", line 80, in invoke
+    r = await self.session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/session/session.py", line 420, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/session/session.py", line 377, in send
+    RPCError.raise_it(result, type(data))
+  File "/usr/local/lib/python3.12/site-packages/pyrogram/errors/rpc_error.py", line 93, in raise_it
+    raise getattr(
+pyrogram.errors.exceptions.bad_request_400.ButtonUrlInvalid: Telegram says: [400 BUTTON_URL_INVALID] (caused by "messages.SendMessage") Pyrogram 2.3.45 thinks: The button url is invalid
