@@ -3709,7 +3709,6 @@ async def global_filters(client, message, text=False):
     else:
         return False
 
-<replit_final_file>
 # Don't Remove Credit @VJ_Botz
 # Subscribe YouTube Channel For Amazing Bot @Tech_VJ
 # Ask Doubt on telegram @KingVJ01
